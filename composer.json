@@ -1,0 +1,61 @@
+{
+  "name": "datamincer/plugins",
+  "version": "0.1",
+  "description": "DataMincer: Plugins",
+  "license": "LGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Artiom Neganov",
+      "email": "aneganov@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "type": "library",
+  "prefer-stable": true,
+  "require":  {
+    "twig/twig": "^2.0",
+    "leafo/scssphp": "^0.8",
+    "league/csv": "^9.2",
+    "doctrine/dbal": "^2.9",
+    "ralouphie/mimey": "^2.1",
+    "ext-fileinfo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "DataMincerPlugins\\": "src/"
+    },
+    "files": [
+      "src/Decks/Named.php",
+      "src/Fields/Append.php",
+      "src/Fields/Callback.php",
+      "src/Fields/Chain.php",
+      "src/Fields/Concat.php",
+      "src/Fields/CopyFile.php",
+      "src/Fields/Each.php",
+      "src/Fields/FetchMedia.php",
+      "src/Fields/File.php",
+      "src/Fields/Hash.php",
+      "src/Fields/Map.php",
+      "src/Fields/Merge.php",
+      "src/Fields/Mime2Ext.php",
+      "src/Fields/OpenDir.php",
+      "src/Fields/Rand.php",
+      "src/Fields/SaveFile.php",
+      "src/Fields/Scss.php",
+      "src/Fields/Split.php",
+      "src/Fields/Twig.php",
+      "src/Fields/Uuid.php",
+      "src/Fields/Value.php",
+      "src/Generators/DefaultGenerator.php",
+      "src/Services/Database.php",
+      "src/Services/MediaFetcher.php",
+      "src/Workers/readers/Sequence.php",
+      "src/Workers/readers/Csv.php",
+      "src/Workers/processors/Debug.php",
+      "src/Workers/processors/ExitWorker.php",
+      "src/Workers/processors/Group.php",
+      "src/Workers/processors/Process.php",
+      "src/Workers/writers/Table.php"
+    ]
+  }
+}
