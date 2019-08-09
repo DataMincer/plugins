@@ -17,6 +17,7 @@
     "leafo/scssphp": "^0.8",
     "league/csv": "^9.2",
     "doctrine/dbal": "^2.9",
+    "ramsey/uuid": "^4.0",
     "ralouphie/mimey": "^2.1",
     "ext-fileinfo": "*"
   },
