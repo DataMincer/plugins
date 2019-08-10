@@ -8,12 +8,17 @@ class Process extends PluginWorkerBase {
 
   protected static $pluginId = 'process';
 
+  public function evaluate($data = []) {
+    // Do not evaluate 'fields' field, as it's intended for process()
+    return $this->evaluateChildren($data, [], [['fields']]);
+  }
+
   /**
    * @inheritDoc
    */
   public function process($config) {
     $data = yield;
-    $values = $this->evaluate($data);
+    $values = $this->evaluateChildren($data);
     yield $this->mergeResult($values['fields'], $data, $values);
   }
 
