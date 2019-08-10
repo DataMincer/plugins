@@ -7,6 +7,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\ArrayLoader;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 use DataMincerCore\Plugin\PluginFieldBase;
 use DataMincerCore\Plugin\PluginFieldInterface;
@@ -34,6 +35,9 @@ class Twig extends PluginFieldBase {
     }, [
       'needs_context' => TRUE,
     ]));
+    $twig->addFilter(new TwigFilter('key', function ($array) {
+      return key($array);
+    }));
     $this->twig = $twig;
   }
 
