@@ -31,7 +31,7 @@ class Group extends PluginBufferingWorkerBase {
   /**
    * @inheritDoc
    */
-  public function process() {
+  public function process($config) {
     $data = yield;
     $values = $this->evaluate($data);
     $this->currentGroup = $this->extractGroup($values['columns'], $data[$values['by']]);

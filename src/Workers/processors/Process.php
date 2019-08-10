@@ -11,7 +11,7 @@ class Process extends PluginWorkerBase {
   /**
    * @inheritDoc
    */
-  public function process() {
+  public function process($config) {
     $data = yield;
     $values = $this->evaluate($data);
     yield $this->mergeResult($values['fields'], $data, $values);

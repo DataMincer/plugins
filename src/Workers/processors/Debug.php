@@ -2,7 +2,7 @@
 
 namespace DataMincerPlugins\Workers\processors;
 
-use DataMincer;
+use DataMincerCore\DataMincer;
 use DataMincerCore\Plugin\PluginWorkerBase;
 use DataMincerCore\Util;
 use DataMincerPlugins\Traits\DebugTrait;
@@ -23,7 +23,7 @@ class Debug extends PluginWorkerBase {
   /**
    * @inheritDoc
    */
-  public function process() {
+  public function process($config) {
     $data = yield;
     $values = $this->evaluate($data);
     $debug_data = $this->prepareData($data, $values['select'], $values['dense']);

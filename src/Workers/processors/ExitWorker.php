@@ -13,7 +13,7 @@ class ExitWorker extends PluginWorkerBase {
    * @inheritDoc
    * @throws PluginNoException
    */
-  public function process() {
+  public function process($config) {
     yield;
     throw new PluginNoException();
   }

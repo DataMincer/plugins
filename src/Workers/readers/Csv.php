@@ -23,15 +23,14 @@ class Csv extends PluginWorkerBase {
   /**
    * @inheritDoc
    */
-  public function process() {
+  public function process($config) {
     $data = yield;
-    $values = $this->evaluate($data);
-    if (is_null($values['header_offset'])) {
+    if (is_null($config['header_offset'])) {
       $this->error('Header offset of a CSV must not be NULL.');
     }
-    foreach ($this->getReader($values)->getRecords() as $record) {
+    foreach ($this->getReader($config)->getRecords() as $record) {
       $row = [];
-      foreach ($this->readColumns($values['columns']) as $field_name => $column_info) {
+      foreach ($this->readColumns($config['columns']) as $field_name => $column_info) {
         if (array_key_exists($column_info['name'], $record)) {
           $value = $record[$column_info['name']];
           if (empty($value)) {
@@ -50,7 +49,7 @@ class Csv extends PluginWorkerBase {
         }
       }
       $this->lastRowBuffer = $row;
-      yield $this->mergeResult($row, $data, $values);
+      yield $this->mergeResult($row, $data, $config);
     }
   }
 
