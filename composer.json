@@ -26,7 +26,7 @@
       "DataMincerPlugins\\": "src/"
     },
     "files": [
-      "src/Decks/Named.php",
+      "src/Decks/DefaultDeck.php",
       "src/Fields/Append.php",
       "src/Fields/Callback.php",
       "src/Fields/Chain.php",
