@@ -5,8 +5,8 @@ namespace DataMincerPlugins\Workers\processors;
 use DataMincerCore\Plugin\PluginBufferingWorkerBase;
 
 /**
- * @property string[] columns
- * @property string by
+ * @property string[] $by
+ * @property string $from
  */
 class Group extends PluginBufferingWorkerBase {
 
@@ -34,18 +34,18 @@ class Group extends PluginBufferingWorkerBase {
   public function process($config) {
     $data = yield;
     $values = $this->evaluate($data);
-    $this->currentGroup = $this->extractGroup($values['columns'], $data[$values['by']]);
+    $this->currentGroup = $this->extractGroup($values['by'], $data[$values['from']]);
     if (!is_null($this->lastGroup)) {
       if ($this->lastGroup !== $this->currentGroup) {
         $this->buffering = FALSE;
-        // Save other values
-        $this->context = $this->extractGroupNot([$values['by']], $data);
       }
     }
     else {
       $this->lastGroup = $this->currentGroup;
     }
-    $row = $this->extractGroupNot($values['columns'], $data[$values['by']]);
+    $row = $this->extractGroupNot($values['by'], $data[$values['from']]);
+    // Save other values
+    $this->context = $this->extractGroupNot([$values['from']], $data);
     yield $row;
   }
 
@@ -81,8 +81,8 @@ class Group extends PluginBufferingWorkerBase {
 
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
-      'by' => ['_type' => 'text', '_required' => FALSE ],
-      'columns' => ['_type' => 'prototype', '_required' => TRUE, '_min_items' => 1, '_prototype' => [
+      'from' => ['_type' => 'text', '_required' => FALSE ],
+      'by' => ['_type' => 'prototype', '_required' => TRUE, '_min_items' => 1, '_prototype' => [
         '_type' => 'text', '_required' => TRUE
       ]]
     ];
@@ -90,7 +90,7 @@ class Group extends PluginBufferingWorkerBase {
 
   static function defaultConfig($data = NULL) {
     return parent::defaultConfig($data) + [
-      'by' => 'row'
+      'from' => 'row'
     ];
   }
 
