@@ -14,7 +14,9 @@ class GitHubUrl extends PluginFieldBase {
     if ($return !== 0) {
       $this->error("Got error while executing command:\n\t$cmd\n\tReturn code: $return");
     }
-    preg_match('~^.*:\w+/.+$~', $result, $matches);
+    if (preg_match('~^.*:(\w+/.+)\.git$~', $result, $matches)) {
+      $result = 'https://github.com/' . $matches[1];
+    }
     return $result;
   }
 
