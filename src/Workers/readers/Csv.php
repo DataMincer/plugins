@@ -97,15 +97,18 @@ class Csv extends PluginWorkerBase {
       'delimiter' => [ '_type' => 'text', '_required' => FALSE ],
       'enclosure' => [ '_type' => 'text', '_required' => FALSE ],
       'escape' => [ '_type' => 'text', '_required' => FALSE ],
-      'columns' => [ '_type' => 'prototype', '_required' => TRUE, '_prototype' => [
-        '_type' => 'choice', '_required' => TRUE, '_choices' => [
-          'name' => [ '_type' => 'text', '_required' => TRUE ],
-          'struct' => ['_type' => 'array', '_required' => TRUE, '_children' => [
-            'name' => ['_type' => 'text', '_required' => TRUE],
-            'autofill' => [ '_type' => 'boolean', '_required' => FALSE ],
-            'default' => [ '_type' => 'text', '_required' => FALSE ],
-          ]],
-        ]
+      'columns' => [ '_type' => 'choice', '_required' => TRUE, '_choices' => [
+        'field' => [ '_type' => 'partial', '_partial' => 'field' ],
+        'list' => [ '_type' => 'prototype', '_required' => TRUE, '_prototype' => [
+          '_type' => 'choice', '_required' => TRUE, '_choices' => [
+            'name' => [ '_type' => 'text', '_required' => TRUE ],
+            'struct' => ['_type' => 'array', '_required' => TRUE, '_children' => [
+              'name' => ['_type' => 'text', '_required' => TRUE],
+              'autofill' => [ '_type' => 'boolean', '_required' => FALSE ],
+              'default' => [ '_type' => 'text', '_required' => FALSE ],
+            ]],
+          ],
+        ]],
       ]],
     ];
   }

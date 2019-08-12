@@ -3,17 +3,39 @@
 namespace DataMincerPlugins\Fields;
 
 use DataMincerCore\Plugin\PluginFieldBase;
+use DataMincerCore\Plugin\PluginFieldInterface;
 
 /**
- * @property array items
- * @property string glue
+ * @property PluginFieldInterface list
+ * @property array by
  */
 class GroupBy extends PluginFieldBase {
 
   protected static $pluginId = 'groupby';
 
   function getValue($data) {
-    xdebug_break();
+    $list = $this->list->value($data);
+    $by = $this->resolveParams($data, $this->by);
+    return  $this->recursiveGroupBy($list, $by);
+  }
+
+  protected function recursiveGroupBy($array, $keys) {
+    $key = array_shift($keys);
+    $result = [];
+    foreach ($array as $val) {
+      if (array_key_exists($key, $val)) {
+        $result[$val[$key]][] = $val;
+      } else {
+        $result[""][] = $val;
+      }
+    }
+    if (count($keys)) {
+      foreach ($result as &$subarray) {
+        $subarray = $this->recursiveGroupBy($subarray, $keys);
+      }
+    }
+
+    return $result;
   }
 
   static function getSchemaChildren() {
