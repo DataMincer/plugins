@@ -35,7 +35,7 @@
       "src/Fields/Each.php",
       "src/Fields/FetchMedia.php",
       "src/Fields/File.php",
-      "src/Fields/GitInfo.php",
+      "src/Fields/GitHubUrl.php",
       "src/Fields/Group.php",
       "src/Fields/GroupBy.php",
       "src/Fields/Hash.php",
