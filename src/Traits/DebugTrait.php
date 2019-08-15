@@ -43,7 +43,10 @@ trait DebugTrait {
   }
 
   function isBinary($data) {
-    return preg_match('~[^\x20-\x7E\t\r\n]~', $data) > 0;
+    if (!mb_check_encoding($data, 'UTF-8')) {
+      return preg_match('~[^\x20-\x7E\t\r\n]~', $data) > 0;
+    }
+    return FALSE;
   }
 
   public static function defaultConfig($data = NULL) {

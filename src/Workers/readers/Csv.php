@@ -36,7 +36,7 @@ class Csv extends PluginWorkerBase {
           if (empty($value)) {
             if ($column_info['autofill']) {
               // Use the last value
-              $value = $this->lastRowBuffer[$column_info['name']] ?? $column_info['default'];
+              $value = $this->lastRowBuffer[$field_name] ?? $column_info['default'];
             }
             else {
               $value = $column_info['default'];

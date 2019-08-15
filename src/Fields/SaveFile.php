@@ -24,9 +24,11 @@ class SaveFile extends PluginFieldBase {
     $destination_path = $this->destination->value($data);
     $destination_dir = dirname($destination_path);
     Util::prepareDir($destination_dir);
-    if (!file_exists($destination_path)) {
-      file_put_contents($destination_path, $contents);
-    }
+    // TODO: Figure out a better way to not write the same files
+//    if (!file_exists($destination_path)) {
+//      file_put_contents($destination_path, $contents);
+//    }
+    file_put_contents($destination_path, $contents);
     return $destination_path;
   }
 
