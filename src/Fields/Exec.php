@@ -3,10 +3,11 @@
 namespace DataMincerPlugins\Fields;
 
 use DataMincerCore\Plugin\PluginFieldBase;
+use DataMincerCore\Plugin\PluginFieldInterface;
 
 /**
  * @property string exec
- * @property string params
+ * @property PluginFieldInterface[] params
  */
 class Exec extends PluginFieldBase {
 
@@ -14,24 +15,22 @@ class Exec extends PluginFieldBase {
 
   function getValue($data) {
     $cmd = $this->resolveParams($data, $this->exec);
-    $params = $this->resolveParams($data, $this->params);
-    foreach ($params as $param) {
+    $params = [];
+    foreach ($this->params as $param) {
+      $params[] = escapeshellarg($param->getValue($data));
     }
-//    $result = exec($cmd, $output, $return);
-//    if ($return !== 0) {
-//      $this->error("Got error while executing command:\n\t$cmd\n\tReturn code: $return");
-//    }
-//    if (preg_match('~^.*:(\w+/.+)\.git$~', $result, $matches)) {
-//      $result = 'https://github.com/' . $matches[1];
-//    }
-    return $result;
+    @exec($cmd . ' ' . implode(' ', $params) . ' 2>&1 ', $output, $return);
+    if ($return !== 0) {
+      $this->error("Got error while executing command:\n\t$cmd\n\tOutput: " . implode($output));
+    }
+    return TRUE;
   }
 
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
         'exec' => [ '_type' => 'text', '_required' => TRUE ],
         'params' => [ '_type' => 'prototype', '_required' => FALSE, '_min_items' => 1, '_prototype' => [
-          '_type' => 'partial', 'required' => TRUE, '_partial' => 'field',
+          '_type' => 'partial', '_required' => TRUE, '_partial' => 'field',
         ]],
       ];
   }

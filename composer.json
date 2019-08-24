@@ -40,6 +40,7 @@
       "src/Fields/Group.php",
       "src/Fields/GroupBy.php",
       "src/Fields/Hash.php",
+      "src/Fields/MakeDir.php",
       "src/Fields/Merge.php",
       "src/Fields/Mime2Ext.php",
       "src/Fields/OpenDir.php",
