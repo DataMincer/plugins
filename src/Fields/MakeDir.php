@@ -16,7 +16,7 @@ class MakeDir extends PluginFieldBase {
   function getValue($data) {
     $path = $this->path->getValue($data);
     Util::prepareDir($path);
-    return TRUE;
+    return $path;
   }
 
   static function getSchemaChildren() {
