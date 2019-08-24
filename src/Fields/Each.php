@@ -7,7 +7,7 @@ use DataMincerCore\Plugin\PluginFieldInterface;
 
 /**
  * @property PluginFieldInterface do
- * @property string source
+ * @property PluginFieldInterface source
  */
 class Each extends PluginFieldBase {
 
@@ -22,7 +22,7 @@ class Each extends PluginFieldBase {
   }
 
   function getValue($data) {
-    $source = $this->resolveParams($data, $this->source);
+    $source = $this->source->getValue($data);
     if (!is_array($source)) {
       $this->error("Value of the 'source' must be an array.");
     }
@@ -35,8 +35,8 @@ class Each extends PluginFieldBase {
 
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
-      'source' => [ '_type' => 'text', '_required' => TRUE ],
-      'do' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field'],
+      'source' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
+      'do' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
     ];
   }
 
