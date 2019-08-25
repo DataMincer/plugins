@@ -1,10 +1,10 @@
 <?php
 
-namespace DataMincerPlugins\Decks;
+namespace DataMincerPlugins\Units;
 
-use DataMincerCore\Plugin\PluginDeckBase;
+use DataMincerCore\Plugin\PluginUnitBase;
 
-class DefaultDeck extends PluginDeckBase {
+class DefaultUnit extends PluginUnitBase {
 
   protected static $pluginId = 'default';
   protected static $isDefault = TRUE;

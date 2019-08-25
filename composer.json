@@ -26,7 +26,6 @@
       "DataMincerPlugins\\": "src/"
     },
     "files": [
-      "src/Decks/DefaultDeck.php",
       "src/Fields/Append.php",
       "src/Fields/Callback.php",
       "src/Fields/Chain.php",
@@ -54,6 +53,7 @@
       "src/Generators/DefaultGenerator.php",
       "src/Services/Database.php",
       "src/Services/MediaFetcher.php",
+      "src/Units/DefaultUnit.php",
       "src/Workers/readers/Sequence.php",
       "src/Workers/readers/Csv.php",
       "src/Workers/processors/Debug.php",
