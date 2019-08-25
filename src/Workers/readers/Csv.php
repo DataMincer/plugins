@@ -25,9 +25,6 @@ class Csv extends PluginWorkerBase {
    */
   public function process($config) {
     $data = yield;
-    if (is_null($config['header_offset'])) {
-      $this->error('Header offset of a CSV must not be NULL.');
-    }
     foreach ($this->getReader($config)->getRecords() as $record) {
       $row = [];
       foreach ($this->readColumns($config['columns']) as $field_name => $column_info) {
