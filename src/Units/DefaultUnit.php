@@ -12,7 +12,7 @@ class DefaultUnit extends PluginUnitBase {
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
       'version' => ['_type' => 'text', '_required' => FALSE],
-      'vars' => ['_type' => 'prototype', '_required' => FALSE, '_min_items' => 1, '_prototype' => [
+      'global' => ['_type' => 'prototype', '_required' => FALSE, '_min_items' => 1, '_prototype' => [
         '_type' => 'partial', '_required' => TRUE, '_partial' => 'field',
       ]],
     ];
