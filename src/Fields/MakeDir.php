@@ -4,7 +4,6 @@ namespace DataMincerPlugins\Fields;
 
 use DataMincerCore\Plugin\PluginFieldBase;
 use DataMincerCore\Plugin\PluginFieldInterface;
-use DataMincerCore\Util;
 
 /**
  * @property PluginFieldInterface path
@@ -14,8 +13,8 @@ class MakeDir extends PluginFieldBase {
   protected static $pluginId = 'makedir';
 
   function getValue($data) {
-    $path = $this->path->getValue($data);
-    Util::prepareDir($path);
+    $path = $this->fileManager->resolveUri($this->path->getValue($data));
+    $this->fileManager->prepareDirectory($path);
     return $path;
   }
 
