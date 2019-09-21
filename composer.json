@@ -31,6 +31,7 @@
       "src/Fields/Chain.php",
       "src/Fields/Concat.php",
       "src/Fields/CopyFile.php",
+      "src/Fields/Csv.php",
       "src/Fields/Each.php",
       "src/Fields/Exec.php",
       "src/Fields/FetchMedia.php",
