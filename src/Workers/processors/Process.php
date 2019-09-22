@@ -24,7 +24,7 @@ class Process extends PluginWorkerBase {
 
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
-      'vars' => ['_type' => 'prototype', '_required' => TRUE, '_prototype' => [
+      'vars' => ['_type' => 'prototype', '_required' => FALSE, '_prototype' => [
         '_type' => 'partial', '_required' => TRUE, '_partial' => 'field',
       ]],
       'fields' => ['_type' => 'prototype', '_required' => TRUE, '_prototype' => [

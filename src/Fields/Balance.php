@@ -2,6 +2,7 @@
 
 namespace DataMincerPlugins\Fields;
 
+use DataMincerCore\Exception\PluginException;
 use DataMincerCore\Plugin\PluginFieldBase;
 use DataMincerCore\Plugin\PluginFieldInterface;
 
@@ -16,23 +17,40 @@ class Balance extends PluginFieldBase {
   function getValue($data) {
     $source = $this->source->getValue($data);
     $levels = $this->resolveParam($data, $this->levels);
-    $res = $this->balanceTree($source, $levels);
-    return $res;
+    return $this->balanceTree($source, $levels);
   }
 
   /**
    * @param $tree
    * @param $levels
+   * @return array
+   * @throws PluginException
    */
   function balanceTree($tree, $levels) {
     $level = array_shift($levels);
-    $t = $tree;
+    $result = [];
+    foreach ($tree as $key => $value) {
+      if (!empty($levels)) {
+        if (!is_array($value)) {
+          $this->error('Cannot balance non-array: ' . $value);
+        }
+        foreach($this->balanceTree($value, $levels) as $row) {
+          $result[] = array_merge([$level => $key], $row);
+        }
+      }
+      else {
+        $result[] = array_merge([$level => $key], $value);
+      }
+    }
+    return $result;
   }
 
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
       'source' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
-      'levels' => [ '_type' => 'text', '_required' => TRUE ]
+      'levels' => [ '_type' => 'prototype', '_required' => TRUE, '_prototype' => [
+        '_type' => 'text', '_required' => TRUE,
+      ]]
     ];
   }
 
