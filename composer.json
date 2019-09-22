@@ -62,7 +62,7 @@
       "src/Workers/processors/Debug.php",
       "src/Workers/processors/ExitWorker.php",
       "src/Workers/processors/Group.php",
-      "src/Workers/processors/Jq.php",
+      "src/Workers/processors/Join.php",
       "src/Workers/processors/Process.php",
       "src/Workers/writers/Table.php"
     ]
