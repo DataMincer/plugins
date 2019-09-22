@@ -22,7 +22,9 @@ class Csv extends PluginWorkerBase {
    */
   public function process($config) {
     $data = yield;
-    yield from $this->getRecords($config, $data);
+    foreach($this->getRecords($config, $data) as $row) {
+      yield $this->mergeResult($row, $data, $config);
+    }
   }
 
 }

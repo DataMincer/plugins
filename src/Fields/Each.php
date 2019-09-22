@@ -6,8 +6,8 @@ use DataMincerCore\Plugin\PluginFieldBase;
 use DataMincerCore\Plugin\PluginFieldInterface;
 
 /**
- * @property PluginFieldInterface do
  * @property PluginFieldInterface source
+ * @property array do
  */
 class Each extends PluginFieldBase {
 
@@ -27,8 +27,11 @@ class Each extends PluginFieldBase {
       $this->error("Value of the 'source' must be an array.");
     }
     $result = [];
-    foreach($source as $item) {
-      $result[] = $this->do->getValue(['input' => $item] + $data);
+    foreach($source as $key => $item) {
+      if (!empty($this->do['key'])) {
+        $key = $this->do['key']->getValue(['input' => $item] + $data);
+      }
+      $result[$key] = $this->do['value']->getValue(['input' => $item] + $data);
     }
     return $result;
   }
@@ -36,7 +39,10 @@ class Each extends PluginFieldBase {
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
       'source' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
-      'do' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
+      'do' => [ '_type' => 'array', '_required' => TRUE, '_children' => [
+        'key' => [ '_type' => 'partial', '_required' => FALSE, '_partial' => 'field' ],
+        'value' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
+      ]],
     ];
   }
 

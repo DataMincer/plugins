@@ -16,9 +16,13 @@ trait CsvTrait {
    * @throws PluginException
    */
   public function getRecords($config, $data) {
+    $columns_config = count($config['columns']) ? $config['columns'] : NULL;
     foreach ($this->getReader($config)->getRecords() as $record) {
+      if (!$columns_config) {
+        $columns_config = array_combine(array_keys($record), array_keys($record));
+      }
       $row = [];
-      foreach ($this->readColumns($config['columns']) as $field_name => $column_info) {
+      foreach ($this->readColumns($columns_config) as $field_name => $column_info) {
         if (array_key_exists($column_info['name'], $record)) {
           $value = $record[$column_info['name']];
           if (empty($value)) {
@@ -38,7 +42,7 @@ trait CsvTrait {
         }
       }
       $this->lastRowBuffer = $row;
-      yield $this->mergeResult($row, $data, $config);
+      yield $row;
     }
   }
 

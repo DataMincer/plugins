@@ -27,6 +27,7 @@
     },
     "files": [
       "src/Fields/Append.php",
+      "src/Fields/Balance.php",
       "src/Fields/Callback.php",
       "src/Fields/Chain.php",
       "src/Fields/Concat.php",

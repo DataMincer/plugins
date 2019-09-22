@@ -17,7 +17,12 @@ class Csv extends PluginFieldBase {
   protected static $pluginId = 'csv';
 
   function getValue($data) {
-
+    $result = [];
+    $config = $this->evaluateChildren($data);
+    foreach ($this->getRecords($config, $data) as $record) {
+      $result[] = $record;
+    }
+    return $result;
   }
 
 
