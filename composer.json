@@ -50,6 +50,7 @@
       "src/Fields/Rand.php",
       "src/Fields/SaveFile.php",
       "src/Fields/Scss.php",
+      "src/Fields/SelectKeys.php",
       "src/Fields/Split.php",
       "src/Fields/Subscript.php",
       "src/Fields/Twig.php",
