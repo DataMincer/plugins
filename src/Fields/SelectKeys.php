@@ -16,10 +16,7 @@ class SelectKeys extends PluginFieldBase {
   function getValue($data) {
     $source = $this->source->getValue($data);
     $keys = $this->keys->getValue($data);
-    if (!array_key_exists($index, $source)) {
-      $this->error("Index '$index' not found in the data.");
-    }
-    return $source[$index];
+    return array_intersect_key($source, array_flip($keys));
   }
 
   static function getSchemaChildren() {
