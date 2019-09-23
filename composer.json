@@ -51,6 +51,7 @@
       "src/Fields/SaveFile.php",
       "src/Fields/Scss.php",
       "src/Fields/Split.php",
+      "src/Fields/Subscript.php",
       "src/Fields/Twig.php",
       "src/Fields/Uuid.php",
       "src/Fields/Value.php",

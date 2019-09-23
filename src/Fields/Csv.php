@@ -4,7 +4,7 @@ namespace DataMincerPlugins\Fields;
 
 use DataMincerCore\Plugin\PluginFieldBase;
 use DataMincerCore\Plugin\PluginFieldInterface;
-use DataMincerPlugins\CsvTrait;
+use DataMincerPlugins\Traits\CsvTrait;
 
 /**
  * @property PluginFieldInterface path

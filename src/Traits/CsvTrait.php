@@ -1,6 +1,6 @@
 <?php
 
-namespace DataMincerPlugins;
+namespace DataMincerPlugins\Traits;
 
 use DataMincerCore\Exception\PluginException;
 use League\Csv\Exception;
