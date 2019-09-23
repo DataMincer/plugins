@@ -19,10 +19,6 @@ class Group extends PluginBufferingWorkerBase {
    * @var bool
    */
   private $buffering = TRUE;
-  /**
-   * @var array
-   */
-  private $newGroup = [];
 
   public function isBuffering() {
     return $this->buffering;
@@ -74,6 +70,8 @@ class Group extends PluginBufferingWorkerBase {
     $row = $this->lastGroup + [
       'items' => $this->buffer,
     ];
+    // Reset buffer
+    $this->buffer = [];
     $this->lastGroup = $this->currentGroup;
     $this->buffering = TRUE;
     return $this->mergeResult($row, $this->context, $this->config);

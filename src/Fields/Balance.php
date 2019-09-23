@@ -39,7 +39,12 @@ class Balance extends PluginFieldBase {
         }
       }
       else {
-        $result[] = array_merge([$level => $key], $value);
+        if (!empty($level)) {
+          $result[] = array_merge([$level => $key], $value);
+        }
+        else {
+          $result[] = $value;
+        }
       }
     }
     return $result;

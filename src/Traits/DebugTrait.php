@@ -6,13 +6,9 @@ trait DebugTrait {
 
   protected static $MAXLENGTH = 100;
 
-  protected function prepareData($data, $select = [], $shrink = FALSE) {
+  protected function prepareData($data, $shrink = FALSE) {
     $result = [];
-    $current_step = array_shift($select);
     foreach($data as $key => $value) {
-      if (!is_null($current_step) && $current_step !== $key) {
-        continue;
-      }
       switch(gettype($value)) {
         case "string":
           if ($this->isBase64($value)) {
@@ -26,7 +22,7 @@ trait DebugTrait {
           $result[$key] = $value;
           break;
         case "array":
-          $result[$key] = $this->prepareData($value, $select, $shrink);
+          $result[$key] = $this->prepareData($value, $shrink);
           break;
         case "object":
           $result[$key] = (string) $value;
@@ -52,8 +48,7 @@ trait DebugTrait {
   public static function defaultConfig($data = NULL) {
     /** @noinspection PhpUndefinedClassInspection */
     return parent::defaultConfig($data) + [
-      'dense' => TRUE,
-      'select' => []
+      'dense' => TRUE
     ];
   }
 
@@ -61,9 +56,7 @@ trait DebugTrait {
     /** @noinspection PhpUndefinedClassInspection */
     return parent::getSchemaChildren() + [
       'dense' => ['_type' => 'boolean', '_required' => FALSE],
-      'select' => ['_type' => 'prototype', '_required' => FALSE, '_min_items' => 1, '_prototype' => [
-        '_type' => 'text', '_required' => TRUE,
-      ]]
+      'select' => ['_type' => 'partial', '_required' => FALSE, '_partial' => 'field']
     ];
   }
 
