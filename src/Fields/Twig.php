@@ -7,6 +7,8 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\ArrayLoader;
+use Twig\Loader\FilesystemLoader;
+use Twig\Loader\ChainLoader;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use DataMincerCore\Plugin\PluginFieldBase;
@@ -23,10 +25,15 @@ class Twig extends PluginFieldBase {
 
   /** @var Environment  */
   protected $twig = NULL;
+  protected $loaders = [];
 
   public function initialize() {
     parent::initialize();
-    $twig = new Environment(new ArrayLoader(), $this->options ?? []);
+    /** @var  $loaders */
+    $this->loaders = ['array' => new ArrayLoader(), 'file' => new FilesystemLoader()];
+    $this->loaders['file']->addPath($this->fileManager->resolveUri('bundle://'), 'bundle');
+    $this->loaders['file']->addPath($this->fileManager->resolveUri('tmp://'), 'tmp');
+    $twig = new Environment(new ChainLoader($this->loaders), $this->options ?? []);
     $twig->addFunction(new TwigFunction('bp', function ($context) {
       if (function_exists('xdebug_break')) {
         /** @noinspection PhpComposerExtensionStubsInspection */
@@ -46,8 +53,7 @@ class Twig extends PluginFieldBase {
    */
   function getValue($data) {
     $template = $this->template->value($data);
-    /** @noinspection PhpUndefinedMethodInspection */
-    $this->twig->getLoader()->setTemplate('template', $template);
+    $this->loaders['array']->setTemplate('template', $template);
     $result = NULL;
     try {
       $context = $data;

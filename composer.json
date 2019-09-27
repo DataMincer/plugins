@@ -46,6 +46,7 @@
       "src/Fields/Merge.php",
       "src/Fields/Mime2Ext.php",
       "src/Fields/OpenDir.php",
+      "src/Fields/Phug.php",
       "src/Fields/PregMatch.php",
       "src/Fields/Rand.php",
       "src/Fields/SaveFile.php",
