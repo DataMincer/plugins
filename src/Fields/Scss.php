@@ -82,8 +82,15 @@ class Scss extends PluginFieldBase {
       'path' => [ '_type' => 'partial', '_required' => FALSE, '_partial' => 'field' ],
       'params' =>   [ '_type' => 'prototype', '_required' => FALSE, '_min_items' => 1, '_prototype' => [
         '_type' => 'partial', '_required' => TRUE, '_partial' => 'field'
-        ]],      'formatter' =>   [ '_type' => 'text', '_required' => FALSE ],
+        ]],
+      'formatter' =>   [ '_type' => 'text', '_required' => FALSE ],
     ];
+  }
+
+  static function defaultConfig($data = NULL) {
+    return [
+      'formatter' => 'expanded',
+    ] + parent::defaultConfig($data);
   }
 
 }

@@ -2,15 +2,10 @@
 
 namespace DataMincerPlugins\Fields;
 
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
-use Twig\Loader\ArrayLoader;
-use Twig\Loader\FilesystemLoader;
-use Twig\Loader\ChainLoader;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
+use DataMincerCore\Exception\PluginException;
+use JsPhpize\JsPhpizePhug;
+use Phug\Renderer;
+use Phug\RendererException;
 use DataMincerCore\Plugin\PluginFieldBase;
 use DataMincerCore\Plugin\PluginFieldInterface;
 
@@ -21,56 +16,49 @@ use DataMincerCore\Plugin\PluginFieldInterface;
  */
 class Phug extends PluginFieldBase {
 
-  protected static $pluginId = 'phug';
+  protected static $pluginId = 'pug';
 
-  /** @var Environment  */
-  protected $twig = NULL;
-  protected $loaders = [];
+  /** @var Renderer */
+  protected $phug;
 
+  /**
+   * @throws PluginException
+   */
   public function initialize() {
-//    parent::initialize();
-//    /** @var  $loaders */
-//    $this->loaders = ['array' => new ArrayLoader(), 'file' => new FilesystemLoader()];
-//    $this->loaders['file']->addPath($this->fileManager->resolveUri('bundle://'), 'bundle');
-//    $this->loaders['file']->addPath($this->fileManager->resolveUri('tmp://'), 'tmp');
-//    $twig = new Environment(new ChainLoader($this->loaders), $this->options ?? []);
-//    $twig->addFunction(new TwigFunction('bp', function ($context) {
-//      if (function_exists('xdebug_break')) {
-//        /** @noinspection PhpComposerExtensionStubsInspection */
-//        xdebug_break();
-//      }
-//    }, [
-//      'needs_context' => TRUE,
-//    ]));
-//    $twig->addFilter(new TwigFilter('key', function ($array) {
-//      return key($array);
-//    }));
-//    $this->twig = $twig;
+    parent::initialize();
+    try {
+      $opts = $this->options;
+      $opts['modules'] = [JsPhpizePhug::class];
+      $opts['path'] = [$this->fileManager->resolveUri('bundle://')];
+      $opts['extensions'] = ['.pug'];
+      $this->phug = new Renderer($opts);
+    }
+    catch (RendererException $e) {
+      $this->error("Cannot initialize Phug: " . $e->getMessage());
+    }
   }
 
   /**
    * @inheritDoc
    */
   function getValue($data) {
-//    $template = $this->template->value($data);
-//    $this->loaders['array']->setTemplate('template', $template);
-//    $result = NULL;
-//    try {
-//      $context = $data;
-//      if (array_key_exists('params', $this->config)) {
-//        $params = [];
-//        foreach ($this->params as $name => $param) {
-//          $params[$name] = $param->value($data);
-//        }
-//        //$context['params'] = $this->resolveParams($data, $this->params);
-//        $context['params'] = $params;
-//      }
-//      $result = $this->twig->load('template')->render($context);
-//    }
-//    catch (LoaderError | RuntimeError | SyntaxError $e) {
-//      $this->error($e->getMessage() . "\nTemplate:\n" . $template);
-//    }
-//    return $result;
+    $template = $this->template->value($data);
+    $result = NULL;
+    try {
+      $context = $data;
+      if (array_key_exists('params', $this->config)) {
+        $params = [];
+        foreach ($this->params as $name => $param) {
+          $params[$name] = $param->value($data);
+        }
+        $context['params'] = $params;
+      }
+      $result = $this->phug->render($template, $context);
+    }
+    catch (RendererException $e) {
+      $this->error($e->getMessage() . "\nTemplate:\n" . $template);
+    }
+    return $result;
   }
 
   static function getSchemaChildren() {
@@ -80,10 +68,24 @@ class Phug extends PluginFieldBase {
         '_type' => 'partial', '_required' => TRUE, '_partial' => 'field'
       ]],
       'options' => [ '_type' => 'array', '_required' => FALSE, '_ignore_extra_keys' => TRUE, '_children' => [
-        'cache' => [ '_type' => 'text', '_required' => FALSE ],
+        'cache_dir' => [ '_type' => 'boolean', '_required' => FALSE ],
         'debug' => [ '_type' => 'boolean', '_required' => FALSE ],
+        'doctype' => [ '_type' => 'text', '_required' => FALSE ],
+        'pretty' => [ '_type' => 'boolean', '_required' => FALSE ],
+        // TODO: add filters?
+        'filename' => [ '_type' => 'text', '_required' => FALSE ],
       ]]
     ];
+  }
+
+  static function defaultConfig($data = NULL) {
+    return [
+      'options' => [
+        'cache' => FALSE,
+        'debug' => TRUE,
+        'pretty' => TRUE,
+      ],
+    ] + parent::defaultConfig($data);
   }
 
 }
