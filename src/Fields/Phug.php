@@ -30,7 +30,6 @@ class Phug extends PluginFieldBase {
       $opts = $this->options;
       $opts['modules'] = [JsPhpizePhug::class];
       $opts['path'] = [$this->fileManager->resolveUri('bundle://')];
-      $opts['extensions'] = ['.pug'];
       $this->phug = new Renderer($opts);
     }
     catch (RendererException $e) {
@@ -74,6 +73,7 @@ class Phug extends PluginFieldBase {
         'pretty' => [ '_type' => 'boolean', '_required' => FALSE ],
         // TODO: add filters?
         'filename' => [ '_type' => 'text', '_required' => FALSE ],
+        'extensions' => ['.pug']
       ]]
     ];
   }
