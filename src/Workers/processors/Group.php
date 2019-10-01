@@ -74,7 +74,7 @@ class Group extends PluginBufferingWorkerBase {
     $this->buffer = [];
     $this->lastGroup = $this->currentGroup;
     $this->buffering = TRUE;
-    return $this->mergeResult($row, $this->context, $this->config);
+    return $this->mergeResult($row, $this->context, $this->_config);
   }
 
   static function getSchemaChildren() {

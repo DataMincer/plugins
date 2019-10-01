@@ -14,13 +14,13 @@ class CopyFile extends PluginFieldBase {
   protected static $pluginId = 'copyfile';
 
   function getValue($data) {
-    $source_path = $this->fileManager->resolveUri($this->source->value($data));
-    $destination_path = $this->fileManager->resolveUri($this->destination->value($data));
+    $source_path = $this->_fileManager->resolveUri($this->source->value($data));
+    $destination_path = $this->_fileManager->resolveUri($this->destination->value($data));
     if (!file_exists($source_path)) {
       $this->error("Cannot open file: $source_path");
     }
     $destination_dir = dirname($destination_path);
-    $this->fileManager->prepareDirectory($destination_dir);
+    $this->_fileManager->prepareDirectory($destination_dir);
     $result = @copy($source_path, $destination_path);
     if (!$result) {
       $this->error("Cannot copy file: $source_path > $destination_path");

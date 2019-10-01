@@ -2,15 +2,18 @@
 
 namespace DataMincerPlugins\Workers\processors;
 
+use DataMincerCore\Plugin\PluginFieldInterface;
 use DataMincerCore\Plugin\PluginWorkerBase;
 
+/**
+ * @property PluginFieldInterface use
+ */
 class Iterator extends PluginWorkerBase {
 
   protected static $pluginId = 'iterator';
 
   public function evaluate($data = []) {
-    // Do not evaluate 'fields' field, as it's intended for process()
-    return $this->evaluateChildren($data, [], [['fields']]);
+    return $this->evaluateChildren($data, [], [['use']]);
   }
 
   /**
@@ -18,8 +21,13 @@ class Iterator extends PluginWorkerBase {
    */
   public function process($config) {
     $data = yield;
-    $values = $this->evaluateChildren($data);
-    yield $this->mergeResult($values['fields'], $data, $values);
+    $use = $this->use->value($data);
+    if (!is_iterable($use)) {
+      $this->error("Cannot iterate " . gettype($use) . " variable.");
+    }
+    foreach($use as $row) {
+      yield $this->mergeResult($row, $data, $config);
+    }
   }
 
   static function getSchemaChildren() {

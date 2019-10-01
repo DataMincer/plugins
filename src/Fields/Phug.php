@@ -29,7 +29,7 @@ class Phug extends PluginFieldBase {
     try {
       $opts = $this->options;
       $opts['modules'] = [JsPhpizePhug::class];
-      $opts['path'] = [$this->fileManager->resolveUri('bundle://')];
+      $opts['path'] = [$this->_fileManager->resolveUri('bundle://')];
       $this->phug = new Renderer($opts);
     }
     catch (RendererException $e) {
@@ -45,7 +45,7 @@ class Phug extends PluginFieldBase {
     $result = NULL;
     try {
       $context = $data;
-      if (array_key_exists('params', $this->config)) {
+      if (array_key_exists('params', $this->_config)) {
         $params = [];
         foreach ($this->params as $name => $param) {
           $params[$name] = $param->value($data);
@@ -73,7 +73,9 @@ class Phug extends PluginFieldBase {
         'pretty' => [ '_type' => 'boolean', '_required' => FALSE ],
         // TODO: add filters?
         'filename' => [ '_type' => 'text', '_required' => FALSE ],
-        'extensions' => ['.pug']
+        'extensions' => [ '_type' => 'prototype', '_required' => FALSE, '_min_items' => 1, '_prototype' => [
+          '_type' => 'text', '_required' => FALSE
+        ]],
       ]]
     ];
   }
@@ -84,6 +86,7 @@ class Phug extends PluginFieldBase {
         'cache' => FALSE,
         'debug' => TRUE,
         'pretty' => TRUE,
+        'extensions' => ['.pug']
       ],
     ] + parent::defaultConfig($data);
   }

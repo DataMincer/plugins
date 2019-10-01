@@ -16,7 +16,7 @@ class OpenDir extends PluginFieldBase {
   protected static $pluginId = 'opendir';
 
   function getValue($data) {
-    $path = $this->fileManager->resolveUri($this->path->value($data));
+    $path = $this->_fileManager->resolveUri($this->path->value($data));
     if (!file_exists($path)) {
       $this->error("Path not found: $path");
     }

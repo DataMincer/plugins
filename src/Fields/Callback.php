@@ -16,7 +16,7 @@ class Callback extends PluginFieldBase {
       $text = is_array($this->callable) ? implode('::', $this->callable) : $this->callable;
       $this->error("The callback '$text' is not valid.");
     }
-    $params = $this->config['params'];
+    $params = $this->_config['params'];
     $params = $this->resolveParams($data, $params);
     return call_user_func_array($this->callable, $params);
   }

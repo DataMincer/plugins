@@ -30,10 +30,10 @@ class Table extends PluginWorkerBase {
     $this->db->createDatabaseSchema();
 
     // Check table
-    if (!array_key_exists($this->table, $this->db->config['schema'])) {
+    if (!array_key_exists($this->table, $this->db->_config['schema'])) {
       $this->error("Table {$this->table} not found in the db schema.");
     }
-    $this->schema = $this->db->config['schema'][$this->table];
+    $this->schema = $this->db->_config['schema'][$this->table];
     // Check key
     if (!array_key_exists($this->key, $this->schema['columns'])) {
       $this->error("Column for the key {$this->key} not found in the db schema.");

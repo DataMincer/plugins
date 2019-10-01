@@ -31,8 +31,8 @@ class Twig extends PluginFieldBase {
     parent::initialize();
     /** @var  $loaders */
     $this->loaders = ['array' => new ArrayLoader(), 'file' => new FilesystemLoader()];
-    $this->loaders['file']->addPath($this->fileManager->resolveUri('bundle://'), 'bundle');
-    $this->loaders['file']->addPath($this->fileManager->resolveUri('tmp://'), 'tmp');
+    $this->loaders['file']->addPath($this->_fileManager->resolveUri('bundle://'), 'bundle');
+    $this->loaders['file']->addPath($this->_fileManager->resolveUri('tmp://'), 'tmp');
     $twig = new Environment(new ChainLoader($this->loaders), $this->options ?? []);
     $twig->addFunction(new TwigFunction('bp', function ($context) {
       if (function_exists('xdebug_break')) {
@@ -57,7 +57,7 @@ class Twig extends PluginFieldBase {
     $result = NULL;
     try {
       $context = $data;
-      if (array_key_exists('params', $this->config)) {
+      if (array_key_exists('params', $this->_config)) {
         $params = [];
         foreach ($this->params as $name => $param) {
           $params[$name] = $param->value($data);

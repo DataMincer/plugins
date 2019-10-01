@@ -22,13 +22,13 @@ class SaveFile extends PluginFieldBase {
       $contents = base64_decode($contents);
       // Don't resolve param if it's a binary content
     }
-    $destination_path = $this->fileManager->resolveUri($this->destination->value($data));
+    $destination_path = $this->_fileManager->resolveUri($this->destination->value($data));
     if ($this->write_seen && in_array($destination_path, $this->seenFiles)) {
       // Skip written earlier
       return $destination_path;
     }
     $destination_dir = dirname($destination_path);
-    $this->fileManager->prepareDirectory($destination_dir);
+    $this->_fileManager->prepareDirectory($destination_dir);
     file_put_contents($destination_path, $contents);
     return $destination_path;
   }

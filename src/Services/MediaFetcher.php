@@ -23,7 +23,7 @@ class MediaFetcher extends PluginServiceBase {
    * @throws PluginException
    */
   function fetch($url) {
-    $use_cache = boolval($this->config['cache'] ?? FALSE);
+    $use_cache = boolval($this->_config['cache'] ?? FALSE);
     if ($use_cache) {
       $cache_dir = $this->getCacheDir();
     }
@@ -73,8 +73,8 @@ class MediaFetcher extends PluginServiceBase {
   }
 
   protected function getCachePath() {
-    if (array_key_exists('cachePath', $this->config)) {
-      $sys_temp_dir = $this->config['cachePath'];
+    if (array_key_exists('cachePath', $this->_config)) {
+      $sys_temp_dir = $this->_config['cachePath'];
     }
     else {
       $sys_temp_dir = sys_get_temp_dir();

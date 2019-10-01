@@ -61,7 +61,7 @@ class Database extends PluginServiceBase {
   public function createDatabaseSchema() {
     $sm = $this->getConnection()->getSchemaManager();
     try {
-      foreach ($this->config['schema'] ?? [] as $table_name => $table_info) {
+      foreach ($this->_config['schema'] ?? [] as $table_name => $table_info) {
         if (!$sm->tablesExist($table_name)) {
           $table = new Table($table_name);
           foreach ($table_info['columns'] as $column_name => $column_info) {

@@ -14,9 +14,9 @@ class File extends PluginFieldBase {
   protected static $pluginId = 'file';
 
   function getValue($data) {
-    $path = $this->fileManager->resolveUri($this->path->value($data));
+    $path = $this->_fileManager->resolveUri($this->path->value($data));
     $format = $this->resolveParams($data, $this->format);
-    if ($this->fileManager->isLocal($path) && !file_exists($path)) {
+    if ($this->_fileManager->isLocal($path) && !file_exists($path)) {
       $this->error("Cannot open file: '$path'");
     }
     $data = @file_get_contents($path);

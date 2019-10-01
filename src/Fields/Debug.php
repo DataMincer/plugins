@@ -26,6 +26,7 @@ class Debug extends PluginFieldBase {
     }
     $debug_data = $this->prepareData($debug_data, $this->dense);
     DataMincer::logger()->debug(Util::toJson($debug_data));
+    return $debug_data;
   }
 
 }

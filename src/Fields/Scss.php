@@ -33,7 +33,7 @@ class Scss extends PluginFieldBase {
     $scss = new Compiler();
     try {
       $context = $data;
-      if (array_key_exists('params', $this->config)) {
+      if (array_key_exists('params', $this->_config)) {
         $params = [];
         foreach ($this->params as $name => $param) {
           $params[$name] = $param->value($data);

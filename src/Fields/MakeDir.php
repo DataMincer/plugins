@@ -13,8 +13,8 @@ class MakeDir extends PluginFieldBase {
   protected static $pluginId = 'makedir';
 
   function getValue($data) {
-    $path = $this->fileManager->resolveUri($this->path->getValue($data));
-    $this->fileManager->prepareDirectory($path);
+    $path = $this->_fileManager->resolveUri($this->path->getValue($data));
+    $this->_fileManager->prepareDirectory($path);
     return $path;
   }
 

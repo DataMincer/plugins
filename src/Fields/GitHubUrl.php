@@ -14,7 +14,7 @@ class GitHubUrl extends PluginFieldBase {
 
   function getValue($data) {
     $path = $this->resolveParam($data, $this->path);
-    $path = $this->fileManager->resolveUri($path);
+    $path = $this->_fileManager->resolveUri($path);
     if (empty($path)) {
       $path = '.';
     }
