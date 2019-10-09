@@ -32,7 +32,11 @@ class Twig extends PluginFieldBase {
     /** @var  $loaders */
     $this->loaders = ['array' => new ArrayLoader(), 'file' => new FilesystemLoader()];
     $this->loaders['file']->addPath($this->_fileManager->resolveUri('bundle://'), 'bundle');
-    $this->loaders['file']->addPath($this->_fileManager->resolveUri('tmp://'), 'tmp');
+    $tmp_path = $this->_fileManager->resolveUri('tmp://');
+    if (!is_dir($tmp_path)) {
+      $this->_fileManager->prepareDirectory($tmp_path);
+    }
+    $this->loaders['file']->addPath($tmp_path, 'tmp');
     $twig = new Environment(new ChainLoader($this->loaders), $this->options ?? []);
     $twig->addFunction(new TwigFunction('bp', function ($context) {
       if (function_exists('xdebug_break')) {

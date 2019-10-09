@@ -39,8 +39,6 @@ items:
   - field: opendir
     mask: '@mixin.mask'
     path: '@mixin.path'
-  - field: debug
-    select: '@input'
   - field: each
     source: '@input'
     do:
