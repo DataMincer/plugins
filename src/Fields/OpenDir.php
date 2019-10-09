@@ -20,7 +20,7 @@ class OpenDir extends PluginFieldBase {
     if (!file_exists($path)) {
       $this->error("Path not found: $path");
     }
-    $mask = !empty($this->mask) ? $this->mask : '*';
+    $mask = $this->resolveParam($data, $this->mask);
     $iterator = new DirectoryIterator($path);
     $result = [];
     foreach ($iterator as $fileinfo) {
@@ -43,5 +43,12 @@ class OpenDir extends PluginFieldBase {
       'mask' => [ '_type' => 'text', '_required' => FALSE ],
     ];
   }
+
+  static function defaultConfig($data = NULL) {
+    return [
+      'mask' => '*',
+    ] + parent::defaultConfig($data);
+  }
+
 
 }

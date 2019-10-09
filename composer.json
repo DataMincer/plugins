@@ -58,6 +58,7 @@
       "src/Fields/Uuid.php",
       "src/Fields/Value.php",
       "src/Generators/DefaultGenerator.php",
+      "src/Mixins/ImportFiles.php",
       "src/Services/Database.php",
       "src/Services/MediaFetcher.php",
       "src/Units/DefaultUnit.php",
