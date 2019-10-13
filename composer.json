@@ -20,6 +20,7 @@
     "ramsey/uuid": "^4.0",
     "ralouphie/mimey": "^2.1",
     "phug/phug": "dev-master",
+    "js-phpize/js-phpize-phug": "dev-master",
     "ext-fileinfo": "*"
   },
   "autoload": {
