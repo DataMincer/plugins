@@ -8,6 +8,9 @@ trait DebugTrait {
 
   protected function prepareData($data, $shrink = FALSE) {
     $result = [];
+    if (!is_array($data)) {
+      $data = [$data];
+    }
     foreach($data as $key => $value) {
       switch(gettype($value)) {
         case "string":
