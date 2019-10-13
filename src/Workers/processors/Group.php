@@ -3,10 +3,11 @@
 namespace DataMincerPlugins\Workers\processors;
 
 use DataMincerCore\Plugin\PluginBufferingWorkerBase;
+use DataMincerCore\Plugin\PluginFieldInterface;
 
 /**
- * @property string[] $by
- * @property string $from
+ * @property string[] by
+ * @property PluginFieldInterface use
  */
 class Group extends PluginBufferingWorkerBase {
 
@@ -24,13 +25,19 @@ class Group extends PluginBufferingWorkerBase {
     return $this->buffering;
   }
 
+  public function evaluate($data = []) {
+    // Do not evaluate 'use' field, as it's intended for process()
+    return $this->evaluateChildren($data, [], [['use']]);
+  }
+
   /**
    * @inheritDoc
    */
   public function process($config) {
     $data = yield;
-    $values = $this->evaluate($data);
-    $this->currentGroup = $this->extractGroup($values['by'], $data[$values['from']]);
+    $use = $this->use->value($data);
+    $by = $this->by;
+    $this->currentGroup = $this->extractGroup($by, $use);
     if (!is_null($this->lastGroup)) {
       if ($this->lastGroup !== $this->currentGroup) {
         $this->buffering = FALSE;
@@ -39,9 +46,9 @@ class Group extends PluginBufferingWorkerBase {
     else {
       $this->lastGroup = $this->currentGroup;
     }
-    $row = $this->extractGroupNot($values['by'], $data[$values['from']]);
+    $row = $this->extractGroupNot($by, $use);
     // Save other values
-    $this->context = $this->extractGroupNot([$values['from']], $data);
+    $this->context = $this->extractGroupNot([$use], $data);
     yield $row;
   }
 
@@ -74,12 +81,12 @@ class Group extends PluginBufferingWorkerBase {
     $this->buffer = [];
     $this->lastGroup = $this->currentGroup;
     $this->buffering = TRUE;
-    return $this->mergeResult($row, $this->context, $this->_config);
+    return $this->mergeResult($row, $this->context, $this->getConfig());
   }
 
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
-      'from' => ['_type' => 'text', '_required' => FALSE ],
+      'use' => ['_type' => 'partial', '_required' => FALSE, '_partial' => 'field'],
       'by' => ['_type' => 'prototype', '_required' => TRUE, '_min_items' => 1, '_prototype' => [
         '_type' => 'text', '_required' => TRUE
       ]]
@@ -88,7 +95,7 @@ class Group extends PluginBufferingWorkerBase {
 
   static function defaultConfig($data = NULL) {
     return parent::defaultConfig($data) + [
-      'from' => 'row'
+      'use' => '@row'
     ];
   }
 
