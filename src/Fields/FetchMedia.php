@@ -14,7 +14,7 @@ use DataMincerPlugins\Services\MediaFetcher;
 class FetchMedia extends PluginFieldBase {
 
   protected static $pluginId = 'fetchmedia';
-  protected static $pluginType = 'field';
+
   protected static $pluginDeps = [
     [
       'type' => 'service',
