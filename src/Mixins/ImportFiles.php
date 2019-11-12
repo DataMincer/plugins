@@ -9,6 +9,7 @@ use DataMincerCore\Plugin\PluginFieldInterface;
  * @property PluginFieldInterface path
  * @property string mask
  * @property PluginFieldInterface destination
+ * @property string prefix
  */
 class ImportFiles extends PluginFieldBase {
 
@@ -21,16 +22,25 @@ class ImportFiles extends PluginFieldBase {
       'mask' => $this->resolveParam($data, $this->mask),
       'path' => $this->path->value($data),
       'destination' => $this->destination->value($data),
+      'prefix' => $this->resolveParam($data, $this->prefix),
     ]] + $data);
   }
 
   static function getSchemaChildren() {
     return parent::getSchemaChildren() + [
       'path' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
-      'mask' => [ '_type' => 'text', '_required' => FALSE ],
+      'mask' => [ '_type' => 'text', '_required' => TRUE ],
       'destination' => [ '_type' => 'partial', '_required' => TRUE, '_partial' => 'field' ],
+      'prefix' => [ '_type' => 'text', '_required' => FALSE ],
     ];
   }
+
+  static function defaultConfig($data = NULL) {
+    return [
+      'prefix' => '',
+    ] + parent::defaultConfig($data);
+  }
+
 
   static function getMixin() {
     return <<< YAML
@@ -49,7 +59,7 @@ items:
           - field: uuid
             persistent: '@source.filename'
           - field: concat
-            items: ['@input', '.', '@source.extension']
+            items: ['@mixin.prefix', '@input', '.', '@source.extension']
           - field: copyfile
             source:
               field: concat
