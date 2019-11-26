@@ -35,7 +35,7 @@ class Debug extends PluginWorkerBase {
       $debug_data = $data;
     }
     $debug_data = $this->prepareData($debug_data, $config['dense']);
-    DataMincer::logger()->debug(Util::toJson($debug_data));
+    DataMincer::logger()->info(Util::toJson($debug_data));
     yield $data;
   }
 
