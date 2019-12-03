@@ -10,7 +10,6 @@
     }
   ],
   "type": "library",
-  "prefer-stable": true,
   "require":  {
     "twig/twig": "^2.0",
     "leafo/scssphp": "^0.8",
@@ -18,8 +17,8 @@
     "doctrine/dbal": "^2.9",
     "ramsey/uuid": "^4.0",
     "ralouphie/mimey": "^2.1",
-    "phug/phug": "dev-master",
-    "js-phpize/js-phpize-phug": "dev-master",
+    "phug/phug": "^1.4.0",
+    "js-phpize/js-phpize-phug": "^2.2.0",
     "ext-fileinfo": "*"
   },
   "autoload": {
